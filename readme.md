@@ -10,7 +10,17 @@ But the Inkscape plugin had them in the same gcode file,
 with added "M1 (Layer 3 Red)" between each layer.
 That seemed to be a good command to use, so this program will prompt You with a dialog to change pen and then continue printing.
 
+
 Serialsettings are hardcoded in the source.
+Baudrate    256000
+Stopbits    1
+Flowcontrol None
+Databits    8
+Parity      None
+
+Precompiled for Windows x86 with MSVC2010
+https://dl.dropboxusercontent.com/u/748397/SpherebotGui/SpherebotGUI.zip
+
 
 ####Links
 http://www.open-electronics.org/spherebot-reloaded-customize-your-xmas/

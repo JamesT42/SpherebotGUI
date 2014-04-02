@@ -123,7 +123,7 @@ void SphereBot::readData(){
 
 void SphereBot::sendCommand(QString cmd){
     if (state==Spherebot::SB_Connected){
-        cmd.remove(QRegExp("\\\((.*)\\)"));
+        cmd.remove(QRegExp("\\((.*)\\)"));
         cmd.append("\n");
         serial->write(cmd.toUtf8());
     }
@@ -145,7 +145,7 @@ void SphereBot::sendNextLine(){
     QString line=fileStream->readLine();
 
     QString stripped = QString(line);
-    stripped.remove(QRegExp("\\\((.*)\\)"));
+    stripped.remove(QRegExp("\\((.*)\\)"));
     if (stripped.length()>1){
         if (stripped.startsWith("M01")){
             state=Spherebot::SB_WaitUserOk;
