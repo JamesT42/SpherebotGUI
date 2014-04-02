@@ -21,6 +21,7 @@ public:
     bool connectSerial(QString port);
     void disconnectSerial();
 
+    void disableSteppers();
     void sendFile(QString path);
     void cancelPrint();
 

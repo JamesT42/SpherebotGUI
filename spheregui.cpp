@@ -25,6 +25,9 @@ SphereGui::SphereGui(QWidget *parent) :
 
     connect(bot, SIGNAL(printPause(QString)), this, SLOT(showPrintMessage(QString)));
     connect(this, SIGNAL(continuePrinting()), bot, SLOT(continuePrinting()));
+
+    grabKeyboard();
+
 }
 
 SphereGui::~SphereGui()
@@ -36,11 +39,13 @@ SphereGui::~SphereGui()
 
 void SphereGui::showPrintMessage(QString msg){
     int res = QMessageBox::question(this, "General message", msg, QMessageBox::Ok, QMessageBox::Abort);
-        if (res==QMessageBox::Abort){
-            bot->cancelPrint();
-            return;
-        }
+    if (res==QMessageBox::Abort){
+        bot->cancelPrint();
+        return;
+    } else {
         emit continuePrinting();
+    }
+
 }
 
 void SphereGui::serialSelected(QAction *action){
@@ -49,10 +54,19 @@ void SphereGui::serialSelected(QAction *action){
     ui->menuSerialport->addAction(action_disconnect);
 
     ui->btn_sendFile->setEnabled(true);
+    ui->eggPitch->setEnabled(true);
+    ui->eggRoll->setEnabled(true);
+    ui->servoSlider->setEnabled(true);
 }
 
 void SphereGui::disconnectSerial(){
     bot->disconnectSerial();
+
+    ui->btn_cancel->setEnabled(false);
+    ui->btn_sendFile->setEnabled(false);
+    ui->eggPitch->setEnabled(false);
+    ui->eggRoll->setEnabled(false);
+    ui->servoSlider->setEnabled(false);
 
     this->ui->menuSerialport->clear();
     foreach (const QSerialPortInfo &info, QSerialPortInfo::availablePorts()) {
@@ -77,6 +91,10 @@ void SphereGui::on_btn_sendFile_clicked()
         return;
 
     ui->btn_sendFile->setEnabled(false);
+    ui->eggPitch->setEnabled(false);
+    ui->eggRoll->setEnabled(false);
+    ui->servoSlider->setEnabled(false);
+
     ui->btn_cancel->setEnabled(true);
     bot->sendFile(fileNames[0]);
 
@@ -87,4 +105,44 @@ void SphereGui::on_btn_cancel_clicked()
     ui->btn_sendFile->setEnabled(true);
     ui->btn_cancel->setEnabled(false);
     bot->cancelPrint();
+}
+
+void SphereGui::keyPressEvent(QKeyEvent *event){
+    switch (event->key()) {
+    case Qt::Key_Up:
+        ui->eggRoll->setValue(ui->eggRoll->value() + 10 );
+        break;
+    case Qt::Key_Down:
+        ui->eggRoll->setValue(ui->eggRoll->value() - 10 );
+        break;
+    case Qt::Key_Left:
+        ui->eggPitch->setValue(ui->eggPitch->value() - 10 );
+        break;
+    case Qt::Key_Right:
+        ui->eggPitch->setValue(ui->eggPitch->value() + 10 );
+        break;
+    case Qt::Key_A:
+        ui->servoSlider->setValue(ui->servoSlider->value() - 5);
+        break;
+    case Qt::Key_Z:
+        ui->servoSlider->setValue(ui->servoSlider->value() + 5);
+        break;
+    case Qt::Key_Space:
+        if (ui->servoSlider->value()>50){
+            ui->servoSlider->setValue(35);
+        } else{
+            ui->servoSlider->setValue(95);
+        }
+
+        break;
+
+
+    default:
+        break;
+    }
+}
+
+void SphereGui::on_pushButton_clicked()
+{
+    bot->disableSteppers();
 }

@@ -5,6 +5,7 @@
 #include <QtSerialPort/QSerialPortInfo>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QKeyEvent>
 
 #include "spherebot.h"
 
@@ -33,11 +34,17 @@ private slots:
     void on_btn_sendFile_clicked();
     void on_btn_cancel_clicked();
 
+    void on_pushButton_clicked();
+
 private:
     Ui::SphereGui *ui;
     SphereBot *bot;
 
     QAction *action_disconnect;
+
+protected:
+    void keyPressEvent(QKeyEvent *event);
+
 };
 
 #endif // SPHEREGUI_H

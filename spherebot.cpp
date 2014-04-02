@@ -51,6 +51,11 @@ void SphereBot::disconnectSerial(){
     qDebug()<<"SB: Disonnected Serial";
 
 }
+void SphereBot::disableSteppers(){
+    if(state!=Spherebot::SB_Connected)
+        return;
+    sendCommand("M18");
+}
 
 void SphereBot::sendFile(QString path){
     file = new QFile(path);
@@ -132,6 +137,7 @@ void SphereBot::sendNextLine(){
         state=Spherebot::SB_Idle;
         file->close();
         fileStream->reset();
+        disableSteppers();
         emit printDone();
         return;
     }
