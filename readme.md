@@ -28,6 +28,6 @@ http://www.thingiverse.com/thing:20398
 http://wiki.evilmadscientist.com/The_Original_Egg-Bot_Kit
 
 All-in-one with Arduino code, and Inkscape (in German)
-chagne "LANG=de" to "LANG=en" in InkscapePortable/Data/settings/InkscapePortableSettings.ini
+change "LANG=de" to "LANG=en" in InkscapePortable/Data/settings/InkscapePortableSettings.ini
 
 https://github.com/thunderbug1/Spherebot-Host-GUI
